@@ -1,5 +1,22 @@
+let rockBtn=document.querySelector("div.options div.rock")
+let paperBtn=document.querySelector("div.options div.paper")
+let scissorsBtn=document.querySelector("div.options div.scissors")
+let humanScoreBoard=document.querySelector("div.scoreBoard div.human span.score")
+let computerScoreBoard=document.querySelector("div.scoreBoard div.computer span.score")
+let resultDiv=document.querySelector("div.choices div")
+let gameEndMessage=document.querySelector("div.choices span")
 let humanScore=0
 let compScore=0
+
+rockBtn.addEventListener('click',e=>{
+    playGame(0)
+})
+paperBtn.addEventListener('click',e=>{
+    playGame(1)
+})
+scissorsBtn.addEventListener('click',e=>{
+    playGame(2)
+})
 
 let getHumanChoice=()=>{
     let input=prompt("Enter your choice - Rock, Paper, Scissors: ").toLowerCase()
@@ -72,11 +89,27 @@ let showResponse=(res)=>{
     console.log(res)
 }
 
-let playGame=()=>{
-    let humanChoice= getHumanChoice()
+let playGame=(humanChoice)=>{
+    // let humanChoice= getHumanChoice()
     let compChoice= getCompChoice()
-    showResponse(playRound(humanChoice,compChoice))
-}
+    let playRoundRes=playRound(humanChoice,compChoice)
+    showResponse(playRoundRes)
+    resultDiv.textContent=playRoundRes
+    humanScoreBoard.textContent=humanScore
+    computerScoreBoard.textContent=compScore
 
-for(i=0;i<5;i++)
-    playGame()
+    if(humanScore==5||compScore==5){
+        if(humanScore==5){
+            console.log("You have Won.");
+            humanScore=0
+            resultDiv.textContent="You have Won the Game!"
+        }
+        else if(compScore==5){
+            console.log("You Lost! Try Again.")
+            compScore=0
+            resultDiv.textContent="Bot has Won the Game!"
+        }
+        gameEndMessage.textContent="Game has ended in order to restart choose any option from below!!!"
+    }
+        
+}
